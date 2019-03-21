@@ -1,65 +1,61 @@
-import { INCREMENT, ADD_CHILD, REMOVE_CHILD, CREATE_NODE, DELETE_NODE } from '../actions'
+import { TOGGLE_SORT_ORDER, TOGGLE_PANEL_COLLAPSE } from '../actions'
 
-const childIds = (state, action) => {
-  switch (action.type) {
-    case ADD_CHILD:
-      return [ ...state, action.childId ]
-    case REMOVE_CHILD:
-      return state.filter(id => id !== action.childId)
-    default:
-      return state
+
+function compareFunction(x, y, sSortOrder) {
+  if (sSortOrder === "asc") {
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+  } else {
+    return ((x > y) ? -1 : ((x < y) ? 1 : 0));
   }
 }
 
-const node = (state, action) => {
-  switch (action.type) {
-    case CREATE_NODE:
-      return {
-        id: action.nodeId,
-        counter: 0,
-        childIds: []
-      }
-    case INCREMENT:
-      return {
-        ...state,
-        counter: state.counter + 1
-      }
-    case ADD_CHILD:
-    case REMOVE_CHILD:
-      return {
-        ...state,
-        childIds: childIds(state.childIds, action)
-      }
-    default:
-      return state
+function handleSortOrderChanged(state, sColName, sCurrentSortOrder) {
+  let bColChanged = sColName !== state.sortColumn;
+  let newSortColumn = sColName;
+
+  sCurrentSortOrder = bColChanged ? "" : sCurrentSortOrder;
+  let sNewSortOrder = (sCurrentSortOrder === "desc") ? "asc" : "desc";
+
+  let oCurrentSortedData = state.oSortedData;
+  let aCurrentData = oCurrentSortedData.communities;
+
+  let newSortedData = {
+    name: oCurrentSortedData.name
+  };
+  if (sColName === "name") {
+    newSortedData.communities = aCurrentData.sort(function (a, b) {
+      let x = a[sColName].toLowerCase();
+      let y = b[sColName].toLowerCase();
+      return compareFunction(x, y, sNewSortOrder);
+    });
+  } else {
+    newSortedData.communities = aCurrentData.sort(function (a, b) {
+      return compareFunction(a[sColName], b[sColName], sNewSortOrder);
+    });
   }
-}
 
-const getAllDescendantIds = (state, nodeId) => (
-  state[nodeId].childIds.reduce((acc, childId) => (
-    [ ...acc, childId, ...getAllDescendantIds(state, childId) ]
-  ), [])
-)
-
-const deleteMany = (state, ids) => {
-  state = { ...state }
-  ids.forEach(id => delete state[id])
-  return state
+  return{
+    ...state,
+    oSortedData: newSortedData,
+    sortOrder: sNewSortOrder,
+    sortColumn: newSortColumn
+  }
 }
 
 export default (state = {}, action) => {
-  const { nodeId } = action
-  if (typeof nodeId === 'undefined') {
-    return state
-  }
+  switch (action.type) {
+    case TOGGLE_PANEL_COLLAPSE:
+      return {
+        ...state,
+        isPanelCollapsed: action.isPanelCollapsed
+      };
 
-  if (action.type === DELETE_NODE) {
-    const descendantIds = getAllDescendantIds(state, nodeId)
-    return deleteMany(state, [ nodeId, ...descendantIds ])
-  }
 
-  return {
-    ...state,
-    [nodeId]: node(state[nodeId], action)
+    case TOGGLE_SORT_ORDER:
+      return handleSortOrderChanged(state, action.sortColumn, action.sortOrder);
+
+
+    default:
+      return state
   }
 }
