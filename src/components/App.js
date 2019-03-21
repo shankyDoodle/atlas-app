@@ -26,7 +26,7 @@ class App extends React.Component {
         <div className={"topDummyHeaderBar"}/>
         <div className={"bottomScreenContainer"}>
           <Panel data={oSortedData}
-                 isPanelCollapsed={this.state.isPanelCollapsed}
+                 isPanelCollapsed={isPanelCollapsed}
                  sortColumn={sortColumn}
                  sortOrder={sortOrder}/>
           <div className={"panelExpander " + sPanelExpanderVisibility}>
@@ -41,7 +41,7 @@ class App extends React.Component {
 
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return state;
 }
 

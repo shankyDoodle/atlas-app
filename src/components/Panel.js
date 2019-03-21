@@ -1,14 +1,16 @@
 import * as actions from "../actions";
 import connect from "react-redux/es/connect/connect";
 
+import ListNode from "./ListNode";
+
 const React = require('react');
+const PropTypes = require('prop-types');
 const Tooltip = require('@material-ui/core').Tooltip;
 
-// const ListNode = require("./ListNode");
 
 class Panel extends React.Component {
 
-  handleCollapseIconClicked= (oEvent) => {
+  handleCollapseIconClicked = (oEvent) => {
     oEvent.stopPropagation();
     this.props.togglePanelCollapse(true);
   };
@@ -29,11 +31,10 @@ class Panel extends React.Component {
     );
   }
 
-  /*getAllListNodesDOM() {
-    let aCommunities = this.props.data.communities || [];
-    let aListNodesDom = [];
-    aCommunities.forEach((oCom, iIndex) => {
-      aListNodesDom.push(<ListNode name={oCom.name} cases={oCom.cases} key={iIndex}/>);
+  getAllListNodesDOM() {
+    let aCommunities = this.props.data.communities || null;
+    let aListNodesDom = aCommunities.map((oCom, iIndex) => {
+      return (<ListNode name={oCom.name} cases={oCom.cases} key={iIndex}/>);
     });
 
     return (
@@ -41,7 +42,7 @@ class Panel extends React.Component {
         {aListNodesDom}
       </div>
     );
-  }*/
+  }
 
   handleSortOrderChanged(sColName, oEvent) {
     oEvent.stopPropagation();
@@ -74,7 +75,7 @@ class Panel extends React.Component {
             </Tooltip>
           </div>
         </div>
-        {/*{this.getAllListNodesDOM()}*/}
+        {this.getAllListNodesDOM()}
       </div>
     );
 
@@ -95,7 +96,14 @@ class Panel extends React.Component {
 
 }
 
-function mapStateToProps(state, ownProps) {
+Panel.propTypes = {
+  data: PropTypes.object,
+  isPanelCollapsed: PropTypes.bool,
+  sortColumn: PropTypes.string,
+  sortOrder: PropTypes.string,
+};
+
+function mapStateToProps(state) {
   return state;
 }
 
