@@ -16,7 +16,7 @@ export default function getInitialState() {
     isDataChanged: false,
     sortColumn: "", // or name or cases
     sortOrder: "", // or asc or desc
-    from: 0,
+    from: iFrom,
     size: iSize,
     hasMore: iSize < aComm.length
   }

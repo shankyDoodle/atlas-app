@@ -38,8 +38,7 @@ function handleSortOrderChanged(state, sColName, sCurrentSortOrder) {
   let iFrom = 0;
   let iSize = state.size;
   let aComm = newSortedData.communities;
-  let aPaginatedData = aComm.length < iFrom + iSize ?
-    aComm.slice(iFrom, iFrom + iSize - aComm.length) : aComm.slice(iFrom, iFrom + iSize);
+  let aPaginatedData = aComm.length < iFrom + iSize ? aComm.slice(iFrom, aComm.length) : aComm.slice(iFrom, iFrom + iSize);
 
 
   return {
@@ -57,8 +56,7 @@ function handleLoadMore(state) {
   let iNewFrom = state.from + iSize;
 
   let aComm = state.originalData.communities;
-  let aPaginatedData = aComm.length < iNewFrom + iSize ?
-    aComm.slice(iNewFrom, iNewFrom + iSize - aComm.length) : aComm.slice(iNewFrom, iNewFrom + iSize);
+  let aPaginatedData = aComm.length < iNewFrom + iSize ? aComm.slice(iNewFrom, aComm.length) : aComm.slice(iNewFrom, iNewFrom + iSize);
 
   return{
     ...state,

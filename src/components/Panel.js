@@ -16,8 +16,6 @@ class Panel extends React.Component {
     let oProps = this.props;
     this.state = {
       communities: oProps.paginatedData,
-      city: oProps.city,
-      totalCount: oProps.totalCount,
       from: oProps.from,
       scrollToTop: false
     }
@@ -61,9 +59,9 @@ class Panel extends React.Component {
     return (
       <div className={"panelHeaderWrapper"}>
         <div className={"panelHeader"}>List of Communities</div>
-        <div className={"communityCount"}>{this.state.totalCount || 0}</div>
+        <div className={"communityCount"}>{this.props.totalCount || 0}</div>
         <div className={"orgNameWrapper"}>
-          <span className={"orgName"}>Communities</span> in <span className={"orgName"}>{this.state.city}</span>
+          <span className={"orgName"}>Communities</span> in <span className={"orgName"}>{this.props.city}</span>
         </div>
         <Tooltip title={"Collapse"}>
           <div className={"expandCollapseIcon doCollapse"} onClick={this.handleCollapseIconClicked}/>
@@ -80,7 +78,7 @@ class Panel extends React.Component {
 
     let oLoaderDOM = <div className="loader" key={0}>Loading ...</div>;
 
-    let bHasMore = this.state.from + this.props.size < this.state.totalCount;
+    let bHasMore = this.state.from + this.props.size < this.props.totalCount;
 
     return (
       <div className={"listNodesWrapper"} ref={"listNodesWrapper"}>
