@@ -1,68 +1,49 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```
+ ________  _________  ___       ________  ________      
+|\   __  \|\___   ___\\  \     |\   __  \|\   ____\     
+\ \  \|\  \|___ \  \_\ \  \    \ \  \|\  \ \  \___|_    
+ \ \   __  \   \ \  \ \ \  \    \ \   __  \ \_____  \   
+  \ \  \ \  \   \ \  \ \ \  \____\ \  \ \  \|____|\  \  
+   \ \__\ \__\   \ \__\ \ \_______\ \__\ \__\____\_\  \ 
+    \|__|\|__|    \|__|  \|_______|\|__|\|__|\_________\
+                                            \|_________|
+```
 
-## Available Scripts
+# ATLAS Coding Challenge
 
-In the project directory, you can run:
+This micro project is created as a solution for  AGHI coding challenge.
 
-### `npm start`
+### Demo
+This project is hosted on github pages at following link
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+[https://shankydoodle.github.io/atlas-app/](https://shankydoodle.github.io/atlas-app/)
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
 
-### `npm test`
+### Description
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* A panel is created that displays a table of all communities in Alta Verapaz and the total case count at each community.
+* This panel have collapse and expand functionality.
+* The columns of the table are sortable. 
+    - For very first render, both columns are in non sorted sequence and are visible as they are in data.
+    - On click of sort icon, sort order is toggled between ascending and descending order.
+    - Standard behaviour of sorting is applied here. At one time, only one column can have sorting order i.e. if 'Name' column is sorted then previous sort order applied to other column 'Cases' may get lost and vice versa
+* To handle huge data '**load more**' functionality is added to the panel list. 
+    - Auto load on scroll is implemented to handle load more.
+    - On every load more request or api call next 100 items are rendered. 
+ 
+ 
+### Installation
+* Clone or download the project.
+* Install node dependencies<br>
+    ``
+        npm install
+    ``
+    
+* Runs the app in the development mode.<br>
+    ``
+        npm start
+    ``
 
-### `npm run build`
+    Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+    The page will reload if you make edits.<br>

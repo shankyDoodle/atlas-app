@@ -18,21 +18,32 @@ class Panel extends React.Component {
       communities: oProps.paginatedData,
       city: oProps.city,
       totalCount: oProps.totalCount,
-      from: oProps.from
+      from: oProps.from,
+      scrollToTop: false
     }
   }
 
   componentWillReceiveProps(oNewProps, oNewState) {
-    console.log("jshgfjsdhgfjs");
     if (oNewProps.from === 0) {
       this.setState({
         communities: oNewProps.paginatedData,
-        from: oNewProps.from
+        from: oNewProps.from,
+        scrollToTop: true
       })
     } else if (oNewProps.from !== this.state.from) {
       this.setState({
         communities: this.state.communities.concat(oNewProps.paginatedData),
         from: oNewProps.from
+      })
+    }
+  }
+
+  componentDidUpdate(){
+    if(this.state.scrollToTop){
+      let oDOM = this.refs["listNodesWrapper"];
+      oDOM.scrollTop = 0;
+      this.setState({
+        scrollToTop: false
       })
     }
   }
@@ -72,7 +83,7 @@ class Panel extends React.Component {
     let bHasMore = this.state.from + this.props.size < this.state.totalCount;
 
     return (
-      <div className={"listNodesWrapper"}>
+      <div className={"listNodesWrapper"} ref={"listNodesWrapper"}>
         <InfiniteScroll
           pageStart={0}
           loadMore={this.handleLoadMoreItems}
