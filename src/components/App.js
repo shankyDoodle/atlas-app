@@ -18,15 +18,26 @@ class App extends React.Component {
   };
 
   render() {
-    let {oSortedData, isPanelCollapsed, sortColumn, sortOrder} = this.props;
+    let {
+      paginatedData,
+      name,
+      totalCount,
+      size,
+      isPanelCollapsed,
+      sortColumn,
+      sortOrder
+    } = this.props;
 
     let sPanelExpanderVisibility = isPanelCollapsed ? "show" : "hide";
     return (
       <div className={"appContainer"}>
         <div className={"topDummyHeaderBar"}/>
         <div className={"bottomScreenContainer"}>
-          <Panel data={oSortedData}
+          <Panel paginatedData={paginatedData}
                  isPanelCollapsed={isPanelCollapsed}
+                 name={name}
+                 totalCount={totalCount}
+                 size={size}
                  sortColumn={sortColumn}
                  sortOrder={sortOrder}/>
           <div className={"panelExpander " + sPanelExpanderVisibility}>

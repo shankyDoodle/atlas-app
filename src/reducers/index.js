@@ -1,4 +1,4 @@
-import { TOGGLE_SORT_ORDER, TOGGLE_PANEL_COLLAPSE } from '../actions'
+import {TOGGLE_SORT_ORDER, TOGGLE_PANEL_COLLAPSE, LOAD_MORE} from '../actions'
 
 
 function compareFunction(x, y, sSortOrder) {
@@ -16,7 +16,7 @@ function handleSortOrderChanged(state, sColName, sCurrentSortOrder) {
   sCurrentSortOrder = bColChanged ? "" : sCurrentSortOrder;
   let sNewSortOrder = (sCurrentSortOrder === "desc") ? "asc" : "desc";
 
-  let oCurrentSortedData = state.oSortedData;
+  let oCurrentSortedData = state.originalData;
   let aCurrentData = oCurrentSortedData.communities;
 
   let newSortedData = {
@@ -34,12 +34,38 @@ function handleSortOrderChanged(state, sColName, sCurrentSortOrder) {
     });
   }
 
+
+  let iFrom = 0;
+  let iSize = state.size;
+  let aComm = newSortedData.communities;
+  let aPaginatedData = aComm.length < iFrom + iSize ?
+    aComm.slice(iFrom, iFrom + iSize - aComm.length) : aComm.slice(iFrom, iFrom + iSize);
+
+
+  return {
+    ...state,
+    originalData: newSortedData,
+    sortOrder: sNewSortOrder,
+    sortColumn: newSortColumn,
+    from: iFrom,
+    paginatedData: aPaginatedData
+  }
+}
+
+function handleLoadMore(state) {
+  let iSize = state.size;
+  let iNewFrom = state.from + iSize;
+
+  let aComm = state.originalData.communities;
+  let aPaginatedData = aComm.length < iNewFrom + iSize ?
+    aComm.slice(iNewFrom, iNewFrom + iSize - aComm.length) : aComm.slice(iNewFrom, iNewFrom + iSize);
+
   return{
     ...state,
-    oSortedData: newSortedData,
-    sortOrder: sNewSortOrder,
-    sortColumn: newSortColumn
+    paginatedData: aPaginatedData,
+    from: iNewFrom
   }
+
 }
 
 export default (state = {}, action) => {
@@ -53,6 +79,9 @@ export default (state = {}, action) => {
 
     case TOGGLE_SORT_ORDER:
       return handleSortOrderChanged(state, action.sortColumn, action.sortOrder);
+
+    case LOAD_MORE:
+      return handleLoadMore(state);
 
 
     default:

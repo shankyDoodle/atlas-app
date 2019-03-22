@@ -3,12 +3,43 @@ import connect from "react-redux/es/connect/connect";
 
 import ListNode from "./ListNode";
 
-const React = require('react');
-const PropTypes = require('prop-types');
-const Tooltip = require('@material-ui/core').Tooltip;
+import React from 'react'
+import PropTypes from 'prop-types';
+import {Tooltip} from '@material-ui/core';
+import InfiniteScroll from 'react-infinite-scroller';
 
 
 class Panel extends React.Component {
+  constructor(props) {
+    super(props);
+
+    let oProps = this.props;
+    this.state = {
+      communities: oProps.paginatedData,
+      city: oProps.city,
+      totalCount: oProps.totalCount,
+      from: oProps.from
+    }
+  }
+
+  componentWillReceiveProps(oNewProps, oNewState) {
+    console.log("jshgfjsdhgfjs");
+    if (oNewProps.from === 0) {
+      this.setState({
+        communities: oNewProps.paginatedData,
+        from: oNewProps.from
+      })
+    } else if (oNewProps.from !== this.state.from) {
+      this.setState({
+        communities: this.state.communities.concat(oNewProps.paginatedData),
+        from: oNewProps.from
+      })
+    }
+  }
+
+  handleLoadMoreItems = () => {
+    this.props.handleLoadMore();
+  };
 
   handleCollapseIconClicked = (oEvent) => {
     oEvent.stopPropagation();
@@ -16,13 +47,12 @@ class Panel extends React.Component {
   };
 
   getPanelHeaderDOM() {
-    let oData = this.props.data;
     return (
       <div className={"panelHeaderWrapper"}>
         <div className={"panelHeader"}>List of Communities</div>
-        <div className={"communityCount"}>{oData.communities.length || 0}</div>
+        <div className={"communityCount"}>{this.state.totalCount || 0}</div>
         <div className={"orgNameWrapper"}>
-          <span className={"orgName"}>Communities</span> in <span className={"orgName"}>{oData.name}</span>
+          <span className={"orgName"}>Communities</span> in <span className={"orgName"}>{this.state.city}</span>
         </div>
         <Tooltip title={"Collapse"}>
           <div className={"expandCollapseIcon doCollapse"} onClick={this.handleCollapseIconClicked}/>
@@ -32,14 +62,28 @@ class Panel extends React.Component {
   }
 
   getAllListNodesDOM() {
-    let aCommunities = this.props.data.communities || null;
+    let aCommunities = this.state.communities || [];
     let aListNodesDom = aCommunities.map((oCom, iIndex) => {
-      return (<ListNode name={oCom.name} cases={oCom.cases} key={iIndex}/>);
+      return (<ListNode name={oCom.name} cases={oCom.cases} key={iIndex} myKey={iIndex}/>);
     });
+
+    let oLoaderDOM = <div className="loader" key={0}>Loading ...</div>;
+
+    let bHasMore = this.state.from + this.props.size < this.state.totalCount;
 
     return (
       <div className={"listNodesWrapper"}>
-        {aListNodesDom}
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={this.handleLoadMoreItems}
+          hasMore={bHasMore}
+          loader={oLoaderDOM}
+          useWindow={false}
+          key={Math.random()}
+          initialLoad={true}
+        >
+          {aListNodesDom}
+        </InfiniteScroll>
       </div>
     );
   }
