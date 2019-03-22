@@ -12,19 +12,19 @@ self.__precacheManifest = [
     "url": "/atlas-app/static/js/runtime~main.2ddb400f.js"
   },
   {
-    "revision": "e3fce0ea24b838c80fbd",
-    "url": "/atlas-app/static/js/main.eeeb1c77.chunk.js"
+    "revision": "00ee31f5952c047984be",
+    "url": "/atlas-app/static/js/main.d539ebd8.chunk.js"
   },
   {
     "revision": "4a08481007db215ad269",
     "url": "/atlas-app/static/js/2.5375c2bc.chunk.js"
   },
   {
-    "revision": "e3fce0ea24b838c80fbd",
+    "revision": "00ee31f5952c047984be",
     "url": "/atlas-app/static/css/main.5e137873.chunk.css"
   },
   {
-    "revision": "e1a9158f018fb4f70b1355068e6d0dfc",
+    "revision": "85d86007e734269898193e5db4c00531",
     "url": "/atlas-app/index.html"
   }
 ];
